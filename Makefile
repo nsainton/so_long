@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/05/05 16:57:16 by nsainton         ###   ########.fr        #
+#    Updated: 2023/05/05 16:59:32 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,7 +111,7 @@ oclean:
 
 .PHONY: lclean
 lclean:
-	$(RM) $(LIBS_DIR)
+	$(RM) -r $(LIBS_DIR)
 
 .PHONY: fclean
 fclean:
