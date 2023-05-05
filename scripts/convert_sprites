@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ "$3" = "" ]
+then
+	echo The first argument should be the path to the input file
+	echo The second argument should be the path to the output file
+	echo The third argument should be the size of the output file
+	exit 3
+fi
+Input_path=$1
+Output_path=$2
+Size=$3
+geom=$Size"x"$Size
+
+convert $Input_path -geometry $geom -colors 216 $Ouput_path
