@@ -6,7 +6,7 @@
 #    By: nsainton <nsainton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/16 11:36:57 by nsainton          #+#    #+#              #
-#    Updated: 2023/05/05 16:23:57 by nsainton         ###   ########.fr        #
+#    Updated: 2023/05/05 16:57:16 by nsainton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,11 @@ DEPS_DIR:= dependencies
 
 DEPS:= $(patsubst %.c, $(DEPS_DIR)/%.d, $(SRCS_NAMES) $(PROG))
 
-LFT_DIR:= ../libft
+LIBS_DIR ?= $(addprefix $(shell pwd)/, libs)
+
+LFT_URL := "git@github.com:nsainton/libft.git"
+
+LFT_DIR:= $(addprefix $(LIBS_DIR)/, libft)
 
 LFT_NAME:= libft.a
 
@@ -44,7 +48,9 @@ LFT_ABBR:= -lft
 
 LFT:= $(addprefix $(LFT_DIR)/, $(LFT_NAME))
 
-MLX_DIR:= ../minilibx-linux
+MLX_URL:= "git@github.com:42Paris/minilibx-linux.git"
+
+MLX_DIR:= $(addprefix $(LIBS_DIR)/, minilibx-linux)
 
 MLX_NAME:= libmlx.a
 
@@ -73,7 +79,7 @@ export LIBRARY_PATH=$(LFT_DIR):$(MLX_DIR)
 
 .PHONY: all
 
-all:
+all: | $(LFT_DIR) $(MLX_DIR)
 	$(MAKE) -C $(LFT_DIR)
 	$(MAKE) -C $(MLX_DIR)
 	$(MAKE) $(NAME)
@@ -88,6 +94,12 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(LFT)
 	[ -d $$arg ] || mkdir -p $$arg
 	$(CC) $(CFLAGS) $(GG) $(OPT) -MD -MF $(DEPS_DIR)/$*.d -c $< -o $@
 
+$(LFT_DIR):
+	git clone $(LFT_URL) $(LFT_DIR)
+
+$(MLX_DIR):
+	git clone $(MLX_URL) $(MLX_DIR)
+
 .PHONY: clean
 clean:
 	$(RM) -r $(OBJS_DIR)
@@ -97,10 +109,15 @@ clean:
 oclean:
 	$(RM) $(NAME)
 
+.PHONY: lclean
+lclean:
+	$(RM) $(LIBS_DIR)
+
 .PHONY: fclean
 fclean:
 	$(MAKE) clean
 	$(MAKE) oclean
+	$(MAKE) lclean
 
 .PHONY: re
 re:

@@ -28,3 +28,6 @@ main.c
 
 # Dependancy files #
 *.d
+
+# Libraries #
+libs
